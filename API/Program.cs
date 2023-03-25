@@ -1,6 +1,10 @@
 using API.Extensions;
 using API.Middleware;
+using Core.Entities.Identity;
 using Infrastructure.Data;
+using Infrastructure.Identity;
+//using Infrastructure.Identity;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 // Create an instance of this app with some pre-configured defaults
@@ -18,6 +22,7 @@ builder.Services.AddControllers();
 
 // Most services moved to ApplicationServicesExtensions.cs.
 builder.Services.AddApplicationServices(builder.Configuration);
+builder.Services.AddIdentityServices(builder.Configuration);
 
 
 // End of Services
@@ -42,6 +47,8 @@ app.UseStaticFiles();
 
 app.UseCors("CorsPolicy");
 
+// Has to be in this order!
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
@@ -55,12 +62,16 @@ app.MapControllers();
 using var scope = app.Services.CreateScope();
 var services = scope.ServiceProvider;
 var context = services.GetRequiredService<StoreContext>();
+var identityContext = services.GetRequiredService<AppIdentityDbContext>();
+var userManager = services.GetRequiredService<UserManager<AppUser>>();
 var logger = services.GetRequiredService<ILogger<Program>>();
 try
 {
     // Asynchronously applies any migrations to the db. Will create the db if non exists
-    await context.Database.MigrateAsync(); 
+    await context.Database.MigrateAsync();
+    await identityContext.Database.MigrateAsync();
     await StoreContextSeed.SeedAsync(context);
+    await AppIdentityDbContextSeed.SeedUsersAsync(userManager);
 }
 catch (Exception ex)
 {

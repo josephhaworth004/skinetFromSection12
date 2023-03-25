@@ -1,6 +1,7 @@
 using API.Errors;
 using Core.Interfaces;
 using Infrastructure.Data;
+using Infrastructure.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using StackExchange.Redis;
@@ -36,8 +37,8 @@ namespace API.Extensions
                 return ConnectionMultiplexer.Connect(options);
             });
             services.AddScoped<IBasketRepository, BasketRepository>(); 
-
             services.AddScoped<IProductRepository, ProductRepository>();
+            services.AddScoped<ITokenService, TokenService>();
 
             // Generic Repository doesn't have a type yet
             // need to use the typeof command for the Interface and the class and use empty <>
