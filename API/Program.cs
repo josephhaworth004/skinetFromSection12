@@ -24,6 +24,9 @@ builder.Services.AddControllers();
 builder.Services.AddApplicationServices(builder.Configuration);
 builder.Services.AddIdentityServices(builder.Configuration);
 
+// Swagger services moved to SwaggerServiceExtensions.cs
+builder.Services.AddSwaggerDocumentation();
+
 
 // End of Services
 ///////////////////////////////////////////////////////////////////////////////////////
@@ -39,8 +42,7 @@ app.UseMiddleware<ExceptionMiddleware>();
 
 app.UseStatusCodePagesWithReExecute("/errors/{0}");
 
-app.UseSwagger();
-app.UseSwaggerUI();
+app.UseSwaggerDocumentation();
 
 // For use with images
 app.UseStaticFiles();

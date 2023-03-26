@@ -18,10 +18,6 @@ namespace API.Extensions
         public static IServiceCollection AddApplicationServices(this IServiceCollection services,
             IConfiguration config)
         {
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-            services.AddEndpointsApiExplorer();
-            services.AddSwaggerGen();
-            
             // Set up database context. StoreContext is the name of the class in StoreContext.cs
             // opt => is a lambda. Execute commands in between {} based on opt
             services.AddDbContext<StoreContext>(opt =>
