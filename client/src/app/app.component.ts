@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AccountService } from './account/account.service';
 import { BasketService } from './basket/basket.service';
 
 @Component({
@@ -12,21 +13,23 @@ import { BasketService } from './basket/basket.service';
 export class AppComponent implements OnInit{
   title = 'Skinet';
 
-// Lifecycle hooks. Various stages an entity goes through
-// Inject something into constructor
-// Make it private so we can only use http in this class
-
-  constructor(private basketService: BasketService) {}
+constructor(private basketService: BasketService, private accountService: AccountService) {}
 
   // Normally considered too early to call this inside constructor
   // Typically use constructor for dependency injection
   ngOnInit(): void {
-    // Will return an observable of the response body as a js object
-    // Must subscribe to observable
-    // will auto-unsubscribe when complete
+    this.loadBasket();
+    this.loadCurrentUser();
+  }
+
+  loadBasket() {
     const basketId = localStorage.getItem('basket_id');
     if (basketId) this.basketService.getBasket(basketId);
-
   }
+
+  loadCurrentUser() {
+    const token = localStorage.getItem('token');
+    this.accountService.loadCurrentUser(token).subscribe();
+  } 
 }
 
