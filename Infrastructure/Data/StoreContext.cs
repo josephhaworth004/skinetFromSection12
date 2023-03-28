@@ -1,5 +1,6 @@
 using System.Reflection;
 using Core.Entities;
+using Core.Entities.OrderAggregate;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Data
@@ -8,8 +9,7 @@ namespace Infrastructure.Data
     {
         // options includes the connection string which is set in: appsettings.Development.json
         public StoreContext(DbContextOptions<StoreContext>options) : base(options)
-        {
-            
+        {     
         }   
 
         // Tell data context about our entity and bring in using API.Entities
@@ -19,6 +19,9 @@ namespace Infrastructure.Data
         // Products (above) will have a foreign key pointing to these two.
         public DbSet<ProductBrand> ProductBrands { get; set; }
         public DbSet<ProductType> ProductTypes { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderItem> OrderItems { get; set; }
+        public DbSet<DeliveryMethod> DeliveryMethods { get; set; }
 
         // Inform this class that there are configurations to look for by overriding one of the methods
         // When we create a migration OnModelCreating is the class responsible for doing that 

@@ -49,6 +49,22 @@ namespace Infrastructure.Data
             // _context.Set<T> will return a product which is converted into a queryable
             return SpecificationEvaluator<T>.GetQuery(_context.Set<T>().AsQueryable(), spec);
         }
+
+        public void Add(T entity)
+        {
+            _context.Set<T>().Add(entity); // Add here will save to the database when SaveChanges() is called
+        }
+
+        public void Update(T entity)
+        {
+            _context.Set<T>().Attach(entity);
+            _context.Entry(entity).State = EntityState.Modified;
+        }
+
+         public void Delete(T entity)
+        {
+            _context.Set<T>().Remove(entity);
+        }
     }
 }
 
