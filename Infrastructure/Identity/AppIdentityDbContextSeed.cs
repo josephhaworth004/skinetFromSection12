@@ -23,7 +23,7 @@ namespace Infrastructure.Identity
                         Street = "10 The street",
                         City = "New York",
                         State = "NY",
-                        ZipCode = "90210"
+                        Zipcode = "90210" // Was ZipCode
                     }
                 };
 

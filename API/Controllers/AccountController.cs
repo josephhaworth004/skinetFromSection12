@@ -59,13 +59,12 @@ namespace API.Controllers
         [HttpGet("address")]
         public async Task<ActionResult<AddressDto>> GetUserAddress()
         {
-            //var email = User.FindFirstValue(ClaimTypes.Email);
-
             var user = await _userManager.FindUserByClaimsPrincipleWithAddress(User);
 
             return _mapper.Map<Address, AddressDto>(user.Address);
         }
 
+        [Authorize]
         // Use HttpPut to update a resource
         [HttpPut("address")]
         public async Task<ActionResult<AddressDto>> UpdateUserAddress(AddressDto address)
