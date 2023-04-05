@@ -37,6 +37,7 @@ namespace API.Extensions
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<IPaymentService, PaymentService>();
+            services.AddSingleton<IResponseCacheService, ResponseCacheService>();
             services.AddScoped<ITokenService, TokenService>();
 
             // Generic Repository doesn't have a type yet

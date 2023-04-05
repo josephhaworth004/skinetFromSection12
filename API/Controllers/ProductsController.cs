@@ -36,6 +36,7 @@ namespace API.Controllers
         }
         
         //End points
+        [Cached(600)]
         [HttpGet]
         // Return an action result that can be used as a http response
         // Return a list of products
@@ -68,9 +69,9 @@ namespace API.Controllers
                 productParams.PageSize, totalItems, data));
         }
 
+        [Cached(600)]
         // To get a specific thing we use pass a route parameter and then send it to the function as an arg
         [HttpGet("{id}")]
-        
         // Tell Swagger about status codes
         // Below is an example. It would make verbose code to do this for all http requests
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -86,12 +87,14 @@ namespace API.Controllers
             return _mapper.Map<Product, ProductToReturnDto>(product);
         }
 
+        [Cached(600)]
         [HttpGet("brands")]
         public async Task<ActionResult<IReadOnlyList<ProductBrand>>> GetProductBrands()
         {
             return Ok(await _productBrandRepo.ListAllAsync());
         }
 
+        [Cached(600)]
         [HttpGet("types")]
         public async Task<ActionResult<IReadOnlyList<ProductBrand>>> GetProductTypes()
         {
